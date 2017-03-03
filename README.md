@@ -1,6 +1,8 @@
 ## Description
 
-This repository holds the code to a new kind of RNN model for processing sequential data. The model computes a recurrent weighted average (RWA) over each sequence to reduce the variable time-series data to a set of outputs. A detailed description of the RWA model has been published online at [URL].
+This repository holds the code to a new kind of RNN model for processing sequential data. The model computes a recurrent weighted average (RWA) over every previous processing step. With this approach, the model can form direct connections anywhere along a sequence. This stands in contrast to traditional RNN architectures that only use the previous processing step. A detailed description of the RWA model has been published online at [URL].
+
+![alt text](artwork/figure.png "Comparison of RNN architectures")
 
 In each folder, the RWA model is evaluated on a different task. The performance of the RWA model is compared against a LSTM model. The RWA is found to train faster and generalize better on each task.
 
