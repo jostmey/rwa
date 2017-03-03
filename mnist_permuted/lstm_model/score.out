@@ -1,0 +1,5 @@
+Extracting ../dataset/bin/train-images-idx3-ubyte.gz
+Extracting ../dataset/bin/train-labels-idx1-ubyte.gz
+Extracting ../dataset/bin/t10k-images-idx3-ubyte.gz
+Extracting ../dataset/bin/t10k-labels-idx1-ubyte.gz
+Dataset: test Cost: 0.705045628934 Accuracy: 93.67

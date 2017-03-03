@@ -1,0 +1,5 @@
+Extracting ../mnist/bin/train-images-idx3-ubyte.gz
+Extracting ../mnist/bin/train-labels-idx1-ubyte.gz
+Extracting ../mnist/bin/t10k-images-idx3-ubyte.gz
+Extracting ../mnist/bin/t10k-labels-idx1-ubyte.gz
+Dataset: test Cost: 0.0838994359555 Accuracy: 98.98
