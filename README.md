@@ -1,6 +1,6 @@
 # UPDATE
 
-Alex Nichol (by the handle "unixpickle") discovered a bug in the code for the RWA model. The correction for numerical statibility is not working as advertised causing information to decay over each processing step. The benefits of the RWA model are then lost. Corrections are forthcoming along with an updated arxiv manuscrupt, but all the results will need to be rerun.
+Alex Nichol (by the handle "unixpickle") discovered a bug in the code for the RWA model. The correction for numerical statibility is not working as advertised causing information to decay over each processing step. The benefits of the RWA model are then lost. Corrections are forthcoming along with an updated arxiv manuscript, but all the results will need to be rerun.
 
 ## Description
 
