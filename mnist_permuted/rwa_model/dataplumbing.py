@@ -3,7 +3,6 @@
 # Author: Jared L. Ostmeyer
 # Date Started: 2017-01-01
 # Purpose: Load dataset and create interfaces for piping the data to the model
-# License: For legal information see LICENSE in the home directory.
 ##########################################################################################
 
 ##########################################################################################
@@ -39,8 +38,8 @@ class Dataset:
 #
 import sys
 sys.path.append('../dataset')
-import input_data_permuted
-_data = input_data_permuted.read_data_sets()
+import input_data
+_data = input_data.read_data_sets('../dataset/bin', one_hot=True)
 
 # Merge training and validation sets back together
 #

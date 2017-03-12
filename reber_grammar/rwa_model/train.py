@@ -3,7 +3,6 @@
 # Author: Jared L. Ostmeyer
 # Date Started: 2017-01-01 (This is my new year's resolution)
 # Purpose: Train recurrent neural network
-# License: For legal information see LICENSE in the home directory.
 ##########################################################################################
 
 ##########################################################################################
@@ -27,7 +26,7 @@ max_steps = dp.train.max_length
 num_cells = 250
 num_classes = dp.train.num_classes
 activation = tf.nn.tanh
-initialization_factor = 3.0
+initialization_factor = 1.0
 
 # Training parameters
 #
@@ -52,24 +51,24 @@ s = tf.Variable(tf.random_normal([num_cells], stddev=np.sqrt(initialization_fact
 W_g = tf.Variable(
 	tf.random_uniform(
 		[num_features+num_cells, num_cells],
-		minval=-np.sqrt(2.0*initialization_factor/(num_features+2.0*num_cells)),
-		maxval=np.sqrt(2.0*initialization_factor/(num_features+2.0*num_cells))
+		minval=-np.sqrt(6.0*initialization_factor/(num_features+2.0*num_cells)),
+		maxval=np.sqrt(6.0*initialization_factor/(num_features+2.0*num_cells))
 	)
 )
 b_g = tf.Variable(tf.zeros([num_cells]))
 W_u = tf.Variable(
 	tf.random_uniform(
 		[num_features, num_cells],
-		minval=-np.sqrt(2.0*initialization_factor/(num_features+num_cells)),
-		maxval=np.sqrt(2.0*initialization_factor/(num_features+num_cells))
+		minval=-np.sqrt(6.0*initialization_factor/(num_features+num_cells)),
+		maxval=np.sqrt(6.0*initialization_factor/(num_features+num_cells))
 	)
 )
 b_u = tf.Variable(tf.zeros([num_cells]))
 W_a = tf.Variable(
 	tf.random_uniform(
 		[num_features+num_cells, num_cells],
-		minval=-np.sqrt(2.0*initialization_factor/(num_features+2.0*num_cells)),
-		maxval=np.sqrt(2.0*initialization_factor/(num_features+2.0*num_cells))
+		minval=-np.sqrt(6.0*initialization_factor/(num_features+2.0*num_cells)),
+		maxval=np.sqrt(6.0*initialization_factor/(num_features+2.0*num_cells))
 	)
 )
 b_a = tf.Variable(tf.zeros([num_cells]))
@@ -77,20 +76,22 @@ b_a = tf.Variable(tf.zeros([num_cells]))
 W_o = tf.Variable(
 	tf.random_uniform(
 		[num_cells, num_classes],
-		minval=-np.sqrt(2.0*initialization_factor/(num_cells+num_classes)),
-		maxval=np.sqrt(2.0*initialization_factor/(num_cells+num_classes))
+		minval=-np.sqrt(6.0*initialization_factor/(num_cells+num_classes)),
+		maxval=np.sqrt(6.0*initialization_factor/(num_cells+num_classes))
 	)
 )
 b_o = tf.Variable(tf.zeros([num_classes]))
 
 # Internal states
 #
-h = tf.zeros([batch_size, num_cells])
 n = tf.zeros([batch_size, num_cells])
 d = tf.zeros([batch_size, num_cells])
+h = tf.zeros([batch_size, num_cells])
+a_max = tf.fill([batch_size, num_cells], -1E38)	# Start off with lowest number possible
 
 # Define model
 #
+error = tf.zeros([batch_size])
 h += activation(tf.expand_dims(s, 0))
 
 for i in range(max_steps):
@@ -98,17 +99,20 @@ for i in range(max_steps):
 	x_step = x[:,i,:]
 	xh_join = tf.concat(1, [x_step, h])	# Combine the features and hidden state into one tensor
 
-	g = tf.matmul(xh_join, W_g)+b_g
 	u = tf.matmul(x_step, W_u)+b_u
-	q = tf.matmul(xh_join, W_a)+b_a
+	g = tf.matmul(xh_join, W_g)+b_g
+	a = tf.matmul(xh_join, W_a)+b_a
 
-	q_greater = tf.maximum(q, 0.0)	# Greater of the exponent term or zero
-	scale = tf.exp(-q_greater)
-	a_scale = tf.exp(q-q_greater)
+	z = tf.mul(u, tf.nn.tanh(g))
 
-	n = tf.mul(n, scale)+tf.mul(tf.mul(u, tf.nn.tanh(g)), a_scale)	# Numerically stable update of numerator
-	d = tf.mul(d, scale)+a_scale	# Numerically stable update of denominator
+	a_newmax = tf.maximum(a_max, a)
+	exp_diff = tf.exp(a_max-a_newmax)
+	exp_scaled = tf.exp(a-a_newmax)
+
+	n = tf.mul(n, exp_diff)+tf.mul(z, exp_scaled)	# Numerically stable update of numerator
+	d = tf.mul(d, exp_diff)+exp_scaled	# Numerically stable update of denominator
 	h_new = activation(tf.div(n, d))
+	a_max = a_newmax
 
 	h = tf.select(tf.greater(l, i), h_new, h)	# Use new hidden state only if the sequence length has not been exceeded
 
