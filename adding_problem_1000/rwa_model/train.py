@@ -90,7 +90,6 @@ a_max = tf.fill([batch_size, num_cells], -1E38)	# Start off with lowest number p
 
 # Define model
 #
-error = tf.zeros([batch_size])
 h += activation(tf.expand_dims(s, 0))
 
 for i in range(max_steps):
