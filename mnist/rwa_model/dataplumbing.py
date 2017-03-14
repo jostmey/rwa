@@ -3,6 +3,7 @@
 # Author: Jared L. Ostmeyer
 # Date Started: 2017-01-01
 # Purpose: Load dataset and create interfaces for piping the data to the model
+# License: For legal information see LICENSE in the home directory.
 ##########################################################################################
 
 ##########################################################################################

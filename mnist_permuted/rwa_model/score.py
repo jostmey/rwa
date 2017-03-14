@@ -3,6 +3,7 @@
 # Author: Jared L. Ostmeyer
 # Date Started: 2017-01-01 (This is my new year's resolution)
 # Purpose: Score recurrent neural network on test dataset
+# License: For legal information see LICENSE in the home directory.
 ##########################################################################################
 
 ##########################################################################################
@@ -69,7 +70,6 @@ W_a = tf.Variable(
 		maxval=np.sqrt(6.0*initialization_factor/(num_features+2.0*num_cells))
 	)
 )
-b_a = tf.Variable(tf.zeros([num_cells]))
 
 W_o = tf.Variable(
 	tf.random_uniform(
@@ -98,7 +98,7 @@ for i in range(max_steps):
 
 	u = tf.matmul(x_step, W_u)+b_u
 	g = tf.matmul(xh_join, W_g)+b_g
-	a = tf.matmul(xh_join, W_a)+b_a
+	a = tf.matmul(xh_join, W_a)
 
 	z = tf.mul(u, tf.nn.tanh(g))
 

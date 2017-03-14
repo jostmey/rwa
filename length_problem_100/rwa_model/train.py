@@ -3,6 +3,7 @@
 # Author: Jared L. Ostmeyer
 # Date Started: 2017-01-01 (This is my new year's resolution)
 # Purpose: Train recurrent neural network
+# License: For legal information see LICENSE in the home directory.
 ##########################################################################################
 
 ##########################################################################################
