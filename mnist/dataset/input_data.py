@@ -17,7 +17,7 @@ def maybe_download(filename, work_directory):
   return filepath
 def _read32(bytestream):
   dt = numpy.dtype(numpy.uint32).newbyteorder('>')
-  return numpy.frombuffer(bytestream.read(4), dtype=dt)
+  return int(numpy.frombuffer(bytestream.read(4), dtype=dt))
 def extract_images(filename):
   """Extract the images into a 4D uint8 numpy array [index, y, x, depth]."""
   print('Extracting', filename)
@@ -30,7 +30,9 @@ def extract_images(filename):
     num_images = _read32(bytestream)
     rows = _read32(bytestream)
     cols = _read32(bytestream)
-    buf = bytestream.read(rows * cols * num_images)
+    num = rows * cols * num_images
+    print(num)
+    buf = bytestream.read(num)
     data = numpy.frombuffer(buf, dtype=numpy.uint8)
     data = data.reshape(num_images, rows, cols, 1)
     return data
