@@ -69,6 +69,7 @@ W_a = tf.Variable(
 		maxval=np.sqrt(6.0*initialization_factor/(num_features+2.0*num_cells))
 	)
 )
+b_a = tf.Variable(tf.zeros([num_cells]))
 
 W_o = tf.Variable(
 	tf.random_uniform(
@@ -84,7 +85,7 @@ b_o = tf.Variable(tf.zeros([num_classes]))
 n = tf.zeros([batch_size, num_cells])
 d = tf.zeros([batch_size, num_cells])
 h = tf.zeros([batch_size, num_cells])
-a_max = tf.zeros([batch_size, num_cells])
+a_max = tf.fill([batch_size, num_cells], -1E38)	# Start off with lowest number possible
 
 # Define model
 #
@@ -97,13 +98,13 @@ for i in range(max_steps):
 
 	u = tf.matmul(x_step, W_u)+b_u
 	g = tf.matmul(xh_join, W_g)+b_g
-	a = tf.matmul(xh_join, W_a)
+	a = tf.matmul(xh_join, W_a)+b_a
 
 	z = tf.mul(u, tf.nn.tanh(g))
 
 	a_newmax = tf.maximum(a_max, a)
 	exp_diff = tf.exp(a_max-a_newmax)
-	exp_scaled = tf.exp(a-a_newmax)+tiny_offset
+	exp_scaled = tf.exp(a-a_newmax)
 
 	n = tf.mul(n, exp_diff)+tf.mul(z, exp_scaled)	# Numerically stable update of numerator
 	d = tf.mul(d, exp_diff)+exp_scaled	# Numerically stable update of denominator
