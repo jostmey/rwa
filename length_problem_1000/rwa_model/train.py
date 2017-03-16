@@ -99,7 +99,7 @@ for i in range(max_steps):
 
 	u = tf.matmul(x_step, W_u)+b_u
 	g = tf.matmul(xh_join, W_g)+b_g
-	a = tf.matmul(xh_join, W_a)
+	a = tf.matmul(xh_join, W_a)     # The bias term when factored out of the numerator and denominator cancels and is unnecessary
 
 	z = tf.mul(u, tf.nn.tanh(g))
 
