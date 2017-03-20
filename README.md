@@ -1,7 +1,3 @@
-# UPDATE
-
-Alex Nichol (by the handle "unixpickle") discovered a bug in the code for the RWA model. The correction for numerical statibility was not working as intended causing information to decay over each processing step. The benefits of the RWA model were then lost. The code in this repository **has been corrected**. Unfortunately, the RWA model must be run again on each task. An updated arxiv manuscript is forthcoming.
-
 ## Description
 
 This repository holds the code to a new kind of RNN model for processing sequential data. The model computes a recurrent weighted average (RWA) over every previous processing step. With this approach, the model can form direct connections anywhere along a sequence. This stands in contrast to traditional RNN architectures that only use the previous processing step. A detailed description of the RWA model has been published in a manuscript at [https://arxiv.org/pdf/1703.01253.pdf](https://arxiv.org/pdf/1703.01253.pdf).
