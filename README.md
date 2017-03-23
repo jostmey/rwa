@@ -1,6 +1,6 @@
 # Update
 
-A bug exist in the code for loading the permuted MNIST task. The bug is specific to this task and does not affect any other results. The models will need to be re-run on the permuted MNIST task. The code for the models are fine. The bug is limited to loading the script used to permute the pixels. An updated arvix manuscsript is forthcoming.
+A bug exist in the code for loading the permuted MNIST task. The bug is specific to this task and does not affect any other results. The models will need to be re-run on the permuted MNIST task. The specific code for the RNN models is fine. The bug is limited to the script for loading the permuted pixels. An updated arvix manuscsript is forthcoming.
 
 ## Description
 
