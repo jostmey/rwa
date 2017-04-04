@@ -103,7 +103,7 @@ error = tf.zeros([batch_size])
 for i in range(max_steps):
 
 	x_step = x[:,i,:]
-	xh_join = tf.concat(1, [x_step, h])	# Combine the features and hidden state into one tensor
+	xh_join = tf.concat(axis=1, values=[x_step, h])	# Combine the features and hidden state into one tensor
 
 	ig = tf.sigmoid(tf.matmul(xh_join, W_ig)+b_ig)
 	fg = tf.sigmoid(tf.matmul(xh_join, W_fg)+b_fg)
@@ -114,8 +114,8 @@ for i in range(max_steps):
 
 	ly = tf.matmul(h, W_o)+b_o
 
-	error_step = tf.nn.softmax_cross_entropy_with_logits(ly, y[:,i,:])	# Cross-entropy cost function
-	error += tf.select(tf.greater(l, i), error_step, tf.zeros([batch_size]))	# Include cost from this step only if the sequence length has not been exceeded
+	error_step = tf.nn.softmax_cross_entropy_with_logits(logits=ly, labels=y[:,i,:])	# Cross-entropy cost function
+	error += tf.where(tf.greater(l, i), error_step, tf.zeros([batch_size]))	# Include cost from this step only if the sequence length has not been exceeded
 
 ##########################################################################################
 # Optimizer
