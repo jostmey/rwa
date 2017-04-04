@@ -95,24 +95,24 @@ h += activation(tf.expand_dims(s, 0))
 for i in range(max_steps):
 
 	x_step = x[:,i,:]
-	xh_join = tf.concat(1, [x_step, h])	# Combine the features and hidden state into one tensor
+	xh_join = tf.concat(axis=1, values=[x_step, h])	# Combine the features and hidden state into one tensor
 
 	u = tf.matmul(x_step, W_u)+b_u
 	g = tf.matmul(xh_join, W_g)+b_g
 	a = tf.matmul(xh_join, W_a)     # The bias term when factored out of the numerator and denominator cancels and is unnecessary
 
-	z = tf.mul(u, tf.nn.tanh(g))
+	z = tf.multiply(u, tf.nn.tanh(g))
 
 	a_newmax = tf.maximum(a_max, a)
 	exp_diff = tf.exp(a_max-a_newmax)
 	exp_scaled = tf.exp(a-a_newmax)
 
-	n = tf.mul(n, exp_diff)+tf.mul(z, exp_scaled)	# Numerically stable update of numerator
-	d = tf.mul(d, exp_diff)+exp_scaled	# Numerically stable update of denominator
+	n = tf.multiply(n, exp_diff)+tf.multiply(z, exp_scaled)	# Numerically stable update of numerator
+	d = tf.multiply(d, exp_diff)+exp_scaled	# Numerically stable update of denominator
 	h_new = activation(tf.div(n, d))
 	a_max = a_newmax
 
-	h = tf.select(tf.greater(l, i), h_new, h)	# Use new hidden state only if the sequence length has not been exceeded
+	h = tf.where(tf.greater(l, i), h_new, h)	# Use new hidden state only if the sequence length has not been exceeded
 
 ly = tf.matmul(h, W_o)+b_o
 ly_flat = tf.reshape(ly, [batch_size])
@@ -124,7 +124,7 @@ py = tf.nn.sigmoid(ly_flat)
 
 # Cost function and optimizer
 #
-cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(ly_flat, y))	# Cross-entropy cost function
+cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=ly_flat, labels=y))	# Cross-entropy cost function
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 
 # Evaluate performance
