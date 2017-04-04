@@ -101,7 +101,7 @@ c = tf.zeros([batch_size, num_cells])
 for i in range(max_steps):
 
 	x_step = x[:,i,:]
-	xh_join = tf.concat(1, [x_step, h])	# Combine the features and hidden state into one tensor
+	xh_join = tf.concat(axis=1, values=[x_step, h])	# Combine the features and hidden state into one tensor
 
 	ig = tf.sigmoid(tf.matmul(xh_join, W_ig)+b_ig)
 	fg = tf.sigmoid(tf.matmul(xh_join, W_fg)+b_fg)
@@ -110,8 +110,8 @@ for i in range(max_steps):
 	c_out = fg*c+ig*c_in
 	h_out = og*tf.tanh(c)
 
-	c = tf.select(tf.greater(l, i), c_out, c)	# Use old states only if the sequence length has not been exceeded
-	h = tf.select(tf.greater(l, i), h_out, h)
+	c = tf.where(tf.greater(l, i), c_out, c)	# Use old states only if the sequence length has not been exceeded
+	h = tf.where(tf.greater(l, i), h_out, h)
 
 ly = tf.matmul(h, W_o)+b_o
 ly_flat = tf.reshape(ly, [batch_size])
