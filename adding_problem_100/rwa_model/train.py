@@ -31,7 +31,7 @@ initialization_factor = 1.0
 
 # Training parameters
 #
-num_iterations = 50000
+num_iterations = 20000
 batch_size = 100
 learning_rate = 0.001
 
@@ -96,27 +96,28 @@ h += activation(tf.expand_dims(s, 0))
 for i in range(max_steps):
 
 	x_step = x[:,i,:]
-	xh_join = tf.concat(1, [x_step, h])	# Combine the features and hidden state into one tensor
+	xh_join = tf.concat([x_step, h],1)	# Combine the features and hidden state into one tensor
 
 	u = tf.matmul(x_step, W_u)+b_u
 	g = tf.matmul(xh_join, W_g)+b_g
-	a = tf.matmul(xh_join, W_a)	# The bias term when factored out of the numerator and denominator cancels and is unnecessary
+	a = tf.matmul(xh_join, W_a)     # The bias term when factored out of the numerator and denominator cancels and is unnecessary
 
-	z = tf.mul(u, tf.nn.tanh(g))
+	z = tf.multiply(u, tf.nn.tanh(g))
 
 	a_newmax = tf.maximum(a_max, a)
 	exp_diff = tf.exp(a_max-a_newmax)
 	exp_scaled = tf.exp(a-a_newmax)
 
-	n = tf.mul(n, exp_diff)+tf.mul(z, exp_scaled)	# Numerically stable update of numerator
-	d = tf.mul(d, exp_diff)+exp_scaled	# Numerically stable update of denominator
+	n = tf.multiply(n, exp_diff)+tf.multiply(z, exp_scaled)	# Numerically stable update of numerator
+	d = tf.multiply(d, exp_diff)+exp_scaled	# Numerically stable update of denominator
 	h_new = activation(tf.div(n, d))
 	a_max = a_newmax
 
-	h = tf.select(tf.greater(l, i), h_new, h)	# Use new hidden state only if the sequence length has not been exceeded
+	h = tf.where(tf.greater(l, i), h_new, h)	# Use new hidden state only if the sequence length has not been exceeded
 
 ly = tf.matmul(h, W_o)+b_o
 ly_flat = tf.reshape(ly, [batch_size])
+py = tf.nn.sigmoid(ly_flat)
 
 ##########################################################################################
 # Optimizer/Analyzer
@@ -124,8 +125,13 @@ ly_flat = tf.reshape(ly, [batch_size])
 
 # Cost function and optimizer
 #
-cost = tf.reduce_mean(tf.square(ly_flat-y))
+cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=ly_flat,labels=y))	# Cross-entropy cost function
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)
+
+# Evaluate performance
+#
+correct = tf.equal(tf.round(py), tf.round(y))
+accuracy = 100.0*tf.reduce_mean(tf.cast(correct, tf.float32))
 
 ##########################################################################################
 # Train
@@ -154,8 +160,8 @@ with tf.Session() as session:
 
 		# Update parameters
 		#
-		out = session.run((cost, optimizer), feed_dict=feed)
-		print('Iteration:', iteration, 'Dataset:', 'train', 'Cost:', out[0])
+		out = session.run((cost, accuracy, optimizer), feed_dict=feed)
+		print('Iteration:', iteration, 'Dataset:', 'train', 'Cost:', out[0]/np.log(2.0), 'Accuracy:', out[1])
 
 		# Periodically run model on test data
 		#
@@ -168,12 +174,11 @@ with tf.Session() as session:
 
 			# Run model
 			#
-			out = session.run(cost, feed_dict=feed)
-			print('Iteration:', iteration, 'Dataset:', 'test', 'Cost:', out)
+			out = session.run((cost, accuracy), feed_dict=feed)
+			print('Iteration:', iteration, 'Dataset:', 'test', 'Cost:', out[0]/np.log(2.0), 'Accuracy:', out[1])
 
 	# Save the trained model
 	#
 	os.makedirs('bin', exist_ok=True)
 	saver = tf.train.Saver()
 	saver.save(session, 'bin/train.ckpt')
-
