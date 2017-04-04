@@ -15,7 +15,7 @@ In each folder, the RWA model is evaluated on a different task. The performance 
 
 ## Requirements
 
-The code is written in Python3. The models are implemented in TensorFlow using version 0.12.0-rc0.
+The code is written in Python3. The scripts have been upgraded to run using version 1.0 of TensorFlow.
 
 ## Acknowledgements
 
