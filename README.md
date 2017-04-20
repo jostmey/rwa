@@ -19,7 +19,8 @@ The code is written in Python3. The scripts have been upgraded to run using vers
 
 ## Alternative Implementations
 
- * [RWA model as TensorFlow RNNCell](https://github.com/jostmey/cas/blob/master/RWACell.py) (Works but still under development)
+ * [RWA model as TensorFlow RNNCell (with customizable attention spans)](https://github.com/jostmey/cas/blob/master/RWACell.py) (Works in progress)
+ * [RWA model in Pytorch (with learnable attention span)](https://github.com/bzcheeseman/pytorch-rwa) (Works in progess)
  * [RWA model in Keras](https://gist.github.com/shamatar/55b804cf62b8ee0fa23efdb3ea5a4701) (Not yet tested)
  * [RWA model in Go](https://github.com/unixpickle/rwa)
 
