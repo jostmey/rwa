@@ -19,12 +19,19 @@ The code is written in Python3. The scripts have been upgraded to run using vers
 
 ## Alternative Implementations
 
- * [RWA model as TensorFlow RNNCell (with customizable attention spans)](https://github.com/jostmey/cas/blob/master/RWACell.py) (Unstable branch - Work in progess)
- * [RWA model in Pytorch (with learnable attention span)](https://github.com/bzcheeseman/pytorch-rwa) (Unstable branch - Work in progess)
- * [RWA model in Keras](https://gist.github.com/shamatar/55b804cf62b8ee0fa23efdb3ea5a4701) (Not yet tested)
+ * [RWA model as TensorFlow RNNCell](https://github.com/jostmey/cas/blob/master/RWACell.py) (Unstable branch - Work in progess)
+ * [RWA model in Keras](https://gist.github.com/shamatar/55b804cf62b8ee0fa23efdb3ea5a4701) (Not personally tested)
+ * [RWA model in Pytorch](https://github.com/bzcheeseman/pytorch-rwa) (Unstable branch - Work in progess)
+ * [RWA model in Pytorch](https://gist.github.com/ririw/4f3a3b3c1828e6d781b624f378890cb0) (Missing equations for numerical stability)
  * [RWA model in Go](https://github.com/unixpickle/rwa)
 
 ## Acknowledgements
 
 Thanks [Alex Nichol](https://github.com/unixpickle) for correcting the equations for numerical stability.
+
+## Corrections (Changelog)
+
+ - March 17th, 2017: Corrected equations used to rescale the numerator and denominator terms, which is used to avoid overflow and underflow conditions. Results for the RWA model were recomputed.
+ - March 26th, 2017: Corrected a bug specific to the code for loading the permuted MNIST task. Results for permuted MNIST task were recomputed.
+ - April 3rd, 2017: Corrected bug in the LSTM model. This bug affected all the results except for the copy problem. Results for the LSTM model were recomputed. No significant changes in performance were observed.
 
