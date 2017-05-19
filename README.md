@@ -22,7 +22,7 @@ The code is written in Python3. The scripts have been upgraded to run using vers
  * [RWA model as TensorFlow RNNCell](https://github.com/jostmey/cas/blob/master/RWACell.py) (Unstable branch - Work in progess)
  * [RWA model in Keras](https://github.com/keisuke-nakata/rwa) (Reproduced results in paper)
  * [RWA model in Pytorch](https://github.com/bzcheeseman/pytorch-rwa) (Unstable branch - Work in progess)
- * [RWA model in Pytorch](https://gist.github.com/ririw/4f3a3b3c1828e6d781b624f378890cb0) (Missing equations for numerical stability)
+ * [RWA model in Pytorch](https://gist.github.com/ririw/4f3a3b3c1828e6d781b624f378890cb0) (Numerically unstable implementation)
  * [RWA model in Go](https://github.com/unixpickle/rwa)
 
 ## Acknowledgements
