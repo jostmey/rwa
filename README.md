@@ -8,6 +8,8 @@ Because the RWA can be computed as a running average, it does not need to be com
 
 In each folder, the RWA model is evaluated on a different task. The performance of the RWA model is compared against a LSTM model. The RWA is found to train considerably faster on most tasks by at least a factor of five. As the sequences become longer, the RWA model scales even better. See the manuscript listed above for the details about each result.
 
+Note: The RWA model may not yield competitive results on Natural Language Problems.
+
 ## Download
 
 * Download: [zip](https://github.com/jostmey/rwa/zipball/master)
