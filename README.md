@@ -24,6 +24,7 @@ The code is written in Python3. The scripts have been upgraded to run using vers
  * [RWA model as TensorFlow RNNCell](https://gist.github.com/jostmey/08e7dd67676f14a06b942ca5e8082360) (My implementation)
  * [RWA model as TensorFlow RNNCell](https://github.com/indiejoseph/tf-rda-cell) (Not tested)
  * [RWA model in Keras](https://github.com/keisuke-nakata/rwa) (Reproduced results in paper)
+ * [RWA model in Keras](https://gist.github.com/shamatar/55b804cf62b8ee0fa23efdb3ea5a4701) (Not tested)
  * [RWA model in Pytorch](https://github.com/bzcheeseman/pytorch-rwa) (Unstable branch - Work in progess)
  * [RWA model in Pytorch](https://gist.github.com/ririw/4f3a3b3c1828e6d781b624f378890cb0) (Numerically unstable implementation)
  * [RWA model in Go](https://github.com/unixpickle/rwa)
