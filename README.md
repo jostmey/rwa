@@ -1,3 +1,5 @@
+[*Click here for my new approach for classifying sequences and other non-conforming data called Dynamic Kernel Matching.*](https://github.com/jostmey/dkm)
+
 ## Description
 
 This repository holds the code to a new kind of RNN model for processing sequential data. The model computes a recurrent weighted average (RWA) over every previous processing step. With this approach, the model can form direct connections anywhere along a sequence. This stands in contrast to traditional RNN architectures that only use the previous processing step. A detailed description of the RWA model has been published in a manuscript at [https://arxiv.org/pdf/1703.01253.pdf](https://arxiv.org/pdf/1703.01253.pdf).
