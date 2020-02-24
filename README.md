@@ -1,4 +1,4 @@
-[*Click here for my new approach for classifying sequences and other non-conforming data called Dynamic Kernel Matching.*](https://github.com/jostmey/dkm)
+[*Click here for my new approach for classifying sequences and other non-conforming data called Dynamic Kernel Matching*](https://github.com/jostmey/dkm)
 
 ## Description
 
